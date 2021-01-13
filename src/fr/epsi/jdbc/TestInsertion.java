@@ -1,5 +1,8 @@
 package fr.epsi.jdbc;
 
+import fr.epsi.jdbc.dao.*;
+
+import fr.epsi.jdbc.entites.Fournisseur;
 import fr.epsi.jdbc.resources.MyResource;
 
 import java.sql.*;
@@ -7,24 +10,11 @@ import java.sql.*;
 public class TestInsertion {
 
     public static void main( String[] args ) {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "root");
 
-            Statement st = connection.createStatement();
-            int nb = st.executeUpdate( "INSERT INTO fournisseur (NOM) VALUES ('La Maison des Peintures')" );
-            st.close();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if ( null != connection && connection.isValid( 2 )) {
-                    connection.close();
-                }
-            } catch ( SQLException e ) {
-                e.printStackTrace();
-            }
-        }
+        FournisseurDao dao = new FournisseurDaoJdbc();
+
+        dao.insert(new Fournisseur("Fourni2"));
+
     }
 }
 

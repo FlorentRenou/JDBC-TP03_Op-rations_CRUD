@@ -8,6 +8,10 @@ public class Fournisseur {
     public Fournisseur() {
     }
 
+    public Fournisseur(String nom) {
+        this.nom = nom;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
