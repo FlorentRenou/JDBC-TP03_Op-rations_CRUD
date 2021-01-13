@@ -12,7 +12,7 @@ public class TestDelete {
 
         FournisseurDao dao = new FournisseurDaoJdbc();
 
-        dao.delete(new Fournisseur("Fourni21"));
+        dao.delete(new Fournisseur("Fourni666"));
 
     }
 

@@ -13,7 +13,7 @@ public class TestUpdate {
 
         FournisseurDao dao = new FournisseurDaoJdbc();
 
-        dao.update("Fourni2","Fourni21");
+        dao.update("Fourni987","Fourni666");
 
     }
 

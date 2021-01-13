@@ -13,7 +13,7 @@ public class TestInsertion {
 
         FournisseurDao dao = new FournisseurDaoJdbc();
 
-        dao.insert(new Fournisseur("Fourni2"));
+        dao.insert(new Fournisseur("Fourni666"));
 
     }
 }

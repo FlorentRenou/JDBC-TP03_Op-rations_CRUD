@@ -8,6 +8,10 @@ import java.util.List;
 
 public class FournisseurDaoJdbc implements FournisseurDao {
 
+    private static final String SELECT_QUERY = "SELECT * FROM fournisseur";
+    private static final String INSERT_QUERY = "INSERT INTO `compta`.`fournisseur` (`NOM`) VALUES (?)";
+    private static final String UPDATE_QUERY = "UPDATE `compta`.`fournisseur` SET `NOM`= ? WHERE `NOM`= ?  ;";
+    private static final String DELETE_QUERY = "DELETE FROM `compta`.`fournisseur` WHERE  `NOM`= ? ;";
 
     @Override
     public List<Fournisseur> extraire() {
@@ -17,7 +21,7 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "root");
 
-            PreparedStatement pSt = connection.prepareStatement("SELECT * FROM fournisseur");
+            PreparedStatement pSt = connection.prepareStatement(SELECT_QUERY);
             ResultSet resultSet = pSt.executeQuery();
             while (resultSet.next()){
                 Fournisseur fournisseur = new Fournisseur();
@@ -51,8 +55,9 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "root");
 
-            Statement st = connection.createStatement();
-            int nb = st.executeUpdate( "INSERT INTO `compta`.`fournisseur` (`NOM`) VALUES ('" + fournisseur.getNom() +"')" );
+            PreparedStatement st = connection.prepareStatement(INSERT_QUERY);
+            st.setString(1, fournisseur.getNom());
+            int nb = st.executeUpdate();
             st.close();
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -75,8 +80,10 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "root");
 
-            Statement st = connection.createStatement();
-            int nb = st.executeUpdate( "UPDATE `compta`.`fournisseur` SET `NOM`= '" + nouveauNom + "' WHERE  `NOM`= '" + ancienNom + "' ;" );
+            PreparedStatement st = connection.prepareStatement(UPDATE_QUERY);
+            st.setString(1, nouveauNom);
+            st.setString(2, ancienNom);
+            int nb = st.executeUpdate();
             st.close();
             return 1;
         } catch ( SQLException e ) {
@@ -100,8 +107,9 @@ public class FournisseurDaoJdbc implements FournisseurDao {
         try {
             connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/compta", "root", "root");
 
-            Statement st = connection.createStatement();
-            int nb = st.executeUpdate( "DELETE FROM `compta`.`fournisseur` WHERE  `NOM`= '" + fournisseur.getNom() + "' ;" );
+            PreparedStatement st = connection.prepareStatement(DELETE_QUERY);
+            st.setString(1, fournisseur.getNom());
+            int nb = st.executeUpdate();
             st.close();
         } catch ( SQLException e ) {
             e.printStackTrace();
